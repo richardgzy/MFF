@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">MFF</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--main page-->
+    <string name="tag_welcome_title">Welcome to Monash Friend Finder</string>
+    <string name="tag_weather">Weather info here</string>
+    <string name="tag_username_display">Student name here</string>
+    <string name="tag_location_display">User location here</string>
+    <string name="tag_temp_display">User current temperature here</string>
+    <string name="tag_date_time_display">Date and time here</string>
+
+    <!--log in page-->
+    <string name="tag_username">Username</string>
+    <string name="tag_password">Password</string>
+    <string name="btn_log_in">Log in</string>
+    <string name="btn_register">I am new here</string>
+    <string name="btn_skiplogin">Skip Log in</string>
+    <string name="tag_feedback">Please enter your info</string>
+    <string name="tag_feedback_for_new_user">Please login in the login page or subscribe to join us!</string>
+
+    <!--subscription page-->
+    <string name="btn_subscribe">Subscribe!</string>
+    <string name="tag_username_subs">Please enter your username (Monash Email Address)</string>
+    <string name="tag_repassword">Please re-enter your password</string>
+    <string name="tag_f_name">First Name</string>
+    <string name="tag_l_name">Last Name</string>
+    <string name="tag_dob">Date of Birth</string>
+    <string name="tag_gender">Gender</string>
+    <string name="tag_male">Male</string>
+    <string name="tag_female">Female</string>
+    <string name="tag_study_mode">Study Mode</string>
+       
+    <string-array name="study_mode_spinner_array">
+               
+        <item>Full-time</item>
+               
+        <item>Part-time</item>
+           
+    </string-array>
+
+    <string-array name="course_spinner_array">
+               
+        <item>MIT</item>
+               
+        <item>MBIS</item>
+           
+    </string-array>
+
+    <string-array name="subrub_array">
+               
+        <item>Caulfield</item>
+               
+        <item>Clayton</item>
+           
+    </string-array>
+
+    <string-array name="nationality_array">
+               
+        <item>Australian</item>
+               
+        <item>Chinese</item>
+           
+    </string-array>
+
+    <string-array name="native_language_array">
+               
+        <item>English</item>
+               
+        <item>Chinese</item>
+           
+    </string-array>
+
+    <string-array name="favourite_sport_array">
+               
+        <item>Basketball</item>
+               
+        <item>Tennis</item>
+           
+    </string-array>
+
+    <string-array name="favourite_unit_array">
+               
+        <item>FIT5046</item>
+               
+        <item>FIT5047</item>
+           
+    </string-array>
+    <string name="tag_course">Course</string>
+    <string name="tag_address">Address</string>
+    <string name="tag_subrub">Subrub</string>
+    <string name="tag_nationality">Nationality</string>
+    <string name="tag_native_language">Native Language</string>
+    <string name="tag_favourite_sport">Favourite Sport</string>
+    <string name="tag_favourite_movie">Favourite Movie</string>
+    <string name="tag_favourite_unit">Favourite Unit</string>
+    <string name="tag_current_job">Current Job</string>
+
+    <!--navi bar header-->
+    <string name="tag_nav_header1">Monash Friend Finder</string>
+    <string name="tag_nav_header2">Made by Richard</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

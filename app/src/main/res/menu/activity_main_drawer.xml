@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Login/Register" />
+
+    </group>
+
+    <item android:title="My MFF">
+        <item
+            android:id="@+id/nav_update"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Update My Profile" />
+        <item
+            android:id="@+id/nav_search_friend"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Search Friend" />
+        <item
+            android:id="@+id/nav_myfriend"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="My Friends" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="My Report" />
+    </item>
+
+</menu>
