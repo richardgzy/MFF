@@ -19,6 +19,7 @@
     <string name="btn_register">I am new here</string>
     <string name="btn_skiplogin">Skip Log in</string>
     <string name="tag_feedback">Please enter your info</string>
+    <string name="welcome_message_after_log_in">Welcome!, %1$s</string>
     <string name="tag_feedback_for_new_user">Please login in the login page or subscribe to join us!</string>
 
     <!--subscription page-->

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 /**
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 public class SubscriptionFragment extends Fragment {
 
     View vMain;
+    EditText password;
     Spinner study_mode_spinner;
     Spinner course_spinner;
     Spinner subrub_spinner;

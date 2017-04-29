@@ -5,8 +5,7 @@ package com.example.richardssurface.mff;
  */
 
 import android.app.Fragment;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,12 +17,10 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class LoginPage extends Fragment implements View.OnClickListener {
@@ -54,98 +51,83 @@ public class LoginPage extends Fragment implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
+
         // Gather user input
-        String userName = etUserName.getText().toString();
-        String password = etPassword.getText().toString();
-        // Validate user input
-        //TODO validate with the info in database
-        String methodPath = "/mffrest.student/findByMonashEmail/";
-
-        String fullUrl = BASE_URI + methodPath + userName;
-        HttpURLConnection conn = null;
-        String textResult = "";
-
-        try {
-            URL url = new URL(fullUrl);
-            //open the connection
-            conn = (HttpURLConnection) url.openConnection();
-            //set the timeout
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-            //set the connection method to GET
-            conn.setRequestMethod("GET");
-            //add http headers to set your response type to json
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
-            //Read the response
-            Scanner inStream = new Scanner(conn.getInputStream());
-            //read the input steream and store it as string
-            while (inStream.hasNextLine()) {
-                textResult += inStream.nextLine();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            conn.disconnect();
-        }
-
-        //TODO parse textResult to JSONObject
-        JsonObject jo = null;
-        boolean loginVaild = validateLogin(userName, password, jo);
-
+        final String userName = etUserName.getText().toString();
         if (userName.isEmpty()) {
             etUserName.setError("Please Enter your Username");
             return;
         }
+
+        final String password = etPassword.getText().toString();
         if (password.isEmpty()) {
             etPassword.setError("Please Enter your Password");
             return;
         }
-        if (textResult.isEmpty()){
-            etPassword.setError("Sorry, username does not exist, please try your Monash email address");
-            return;
-        }
-        if (!loginVaild){
-            etPassword.setError("Sorry, this seems not like a vaild matching password");
-            return;
-        }
+        //hasing password
+        final String hashedPassword = HashTool.md5Hashing(password);
 
-        // Store user input to JSONObject
-        JSONObject joUnit = new JSONObject();
-        try {
-            joUnit.put("userName", userName);
-            joUnit.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        // Add created unit to file
-        SharedPreferences spMyUnits = getActivity().getSharedPreferences("myUnits", Context.MODE_PRIVATE);
-        String sMyUnits = spMyUnits.getString("myUnits", null);
-        JSONArray jaMyUnits = null;
-        // If myUnits has not been set, create one.
-        if (sMyUnits == null) {
-            jaMyUnits = new JSONArray();
-        }
-        // If exist, parse it
-        else {
-            try {
-                jaMyUnits = new JSONArray(sMyUnits);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        // Validate user input using asyncTask
+        new AsyncTask<Void, Void, String>() {
+            @Override protected String doInBackground (Void...params){
+
+                //using the rest service findByAnyTwoAttribute to verify the username and hashed password
+                String methodPath = "/mffrest.student/findByAnyTwoAttribute";
+                String fullUrl = BASE_URI + methodPath + "/monashEmail/" + userName + "/password/" + hashedPassword;
+                HttpURLConnection conn = null;
+                String textResult = "";
+
+                try {
+                    URL url = new URL(fullUrl);
+                    //open the connection
+                    conn = (HttpURLConnection) url.openConnection();
+                    //set the timeout
+                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(15000);
+                    //set the connection method to GET
+                    conn.setRequestMethod("GET");
+                    //add http headers to set your response type to json
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Accept", "application/json");
+                    //Read the response
+                    Scanner inStream = new Scanner(conn.getInputStream());
+                    //read the input steream and store it as string
+                    while (inStream.hasNextLine()) {
+                        textResult += inStream.nextLine();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    conn.disconnect();
+                }
+
+                return textResult;
             }
-        }
-        // Append joUnit to jaMyUnits and save back to file
-        jaMyUnits.put(joUnit);
-        SharedPreferences.Editor eMyUnits = spMyUnits.edit();
-        eMyUnits.putString("myUnits", jaMyUnits.toString());
-        eMyUnits.apply();
-        // Feedback
-        String feedback = userName + " " + password + " has been recorded.";
-        tvFeedback.setText(feedback);
 
-        //clear the text
-        etUserName.setText("");
-        etPassword.setText("");
+            @Override protected void onPostExecute (String textResult){
+                ArrayList<HashMap> result = JSONParsingTool.parseStudentinfo(textResult);
+                if(result.size() == 1){
+                    // login successful
+                    currentUser = result.get(0).get("FName").toString();
+                    currentLoginState = true;
+                }
+                else{
+                    //login failed
+                    currentUser = null;
+                    currentLoginState = false;
+                }
+
+                if(currentLoginState && currentUser != null){
+
+                    String welcome_message_after_log_in = getResources().getString(R.string.welcome_message_after_log_in);
+                    tvFeedback.setText(String.format(welcome_message_after_log_in, currentUser));
+                }else{
+                    etPassword.setError("Sorry, the combination does not exist, please try your Monash email address");
+                }
+            }
+        }.execute();
+
+
     }
 
     public boolean validateLogin (String username, String password, JsonObject jsonResult){

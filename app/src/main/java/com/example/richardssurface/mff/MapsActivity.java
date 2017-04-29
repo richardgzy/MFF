@@ -1,10 +1,7 @@
 package com.example.richardssurface.mff;
 
-import android.Manifest;
 import android.app.Fragment;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,16 +39,18 @@ public class MapsActivity extends Fragment {
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                //ask for permission
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                } else {
-                    // Show rationale and request permission.
-                }
+//                //ask for permission
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//                    mMap.setMyLocationEnabled(true);
+//                } else {
+//                    // Show rationale and request permission.
+//                }
 
                 // For showing a move to my location button
-                googleMap.setMyLocationEnabled(true);
+//                googleMap.setMyLocationEnabled(true);
 
+
+                //TODO retrieve friends data from database
                 // For dropping a marker at a point on the Map
                 LatLng sydney = new LatLng(-34, 151);
                 googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
@@ -61,7 +60,6 @@ public class MapsActivity extends Fragment {
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
-
 
         return rootView;
     }
@@ -89,4 +87,6 @@ public class MapsActivity extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
 }

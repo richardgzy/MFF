@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         Fragment nextFragment = null;
         switch (id) {
             case R.id.nav_login:
-                nextFragment = new MainFragment();
+                nextFragment = new LoginPage();
                 break;
             case R.id.nav_search_friend:
                 MapsActivity ma = new MapsActivity();
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.measure();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

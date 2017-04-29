@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -55,7 +52,7 @@ public class MainFragment extends Fragment {
                 WeatherHttpClient whc = new WeatherHttpClient();
                 String response = whc.getWeatherData(latitude,longitude);
 
-                return parseWeatherinfo(response);
+                return JSONParsingTool.parseWeatherinfo(response);
             }
 
             @Override protected void onPostExecute (ArrayList<String> result){
@@ -68,41 +65,5 @@ public class MainFragment extends Fragment {
         }.execute();
 
         return vMain;
-    }
-
-    public ArrayList<String> parseWeatherinfo(String input){
-        ArrayList<String> resultArray = new ArrayList<>();
-
-        try{
-            JSONObject jo = new JSONObject(input);
-
-            //extract temperature
-            JSONArray listJaar = (JSONArray) jo.get("list");
-            int count = (Integer) jo.get("cnt");
-            JSONObject jo2 = (JSONObject) listJaar.get(0);
-            JSONObject jo3 = (JSONObject) jo2.get("main");
-            String tempweNeed = jo3.get("temp").toString();
-
-            //extract weather
-            JSONObject jo4 = (JSONObject) listJaar.get(count-1);
-            JSONArray weatherJaar = (JSONArray) jo4.get("weather");
-            JSONObject jo5 = (JSONObject) weatherJaar.get(0);
-            String weatherweNeed = jo5.get("main").toString();
-
-            //extract location name
-            JSONObject jo6 = (JSONObject) jo.get("city");
-            String placeName = jo6.get("name").toString();
-            String countryName = jo6.get("country").toString();
-            String locationName = placeName + ", " + countryName;
-
-            //add to result list
-            resultArray.add(tempweNeed);
-            resultArray.add(weatherweNeed);
-            resultArray.add(locationName);
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return resultArray;
     }
 }
