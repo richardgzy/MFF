@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Richard's Surface on 4/25/2017.
@@ -18,11 +20,13 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment {
     View vMain;
     TextView tv_welcome;
+    TextView tv_login_info;
     TextView tv_weatherinfo;
+    TextView tv_current_time;
     private boolean loginState;
     private String currentUser;
-    private String latitude = "-37.8830";
-    private String longitude = "145.0930";
+    private final String latitude = "-37.8830";//hardcode value
+    private final String longitude = "145.0930";//hardcode value
     private String userCurrentTemp;
     private String userCurrentWeather;
     private String userCurrentLocation;
@@ -30,18 +34,25 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vMain = inflater.inflate(R.layout.activity_main, container, false);
+        vMain = inflater.inflate(R.layout.fragment_main, container, false);
         tv_welcome = (TextView) vMain.findViewById(R.id.tv_welcome);
+        tv_login_info = (TextView) vMain.findViewById(R.id.tv_login_info);
         tv_weatherinfo = (TextView) vMain.findViewById(R.id.tv_weatherinfo);
+        tv_current_time = (TextView) vMain.findViewById(R.id.tv_current_time);
+
+        //current date and time
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        tv_current_time.setText(currentDateTimeString);
 
         //validate user first
         loginState = LoginPage.isCurrentLoginState();
         if(!loginState){
             currentUser = null;
-            tv_welcome.setText(getResources().getString(R.string.tag_feedback_for_new_user));
+            tv_login_info.setText(getResources().getString(R.string.tag_feedback_for_new_user));
         }else{
             currentUser = LoginPage.getCurrentUser();
-            tv_welcome.setText("Welcome, " + currentUser + "!");
+            String welcome_message_after_log_in = getResources().getString(R.string.welcome_message_after_log_in);
+            tv_login_info.setText(String.format(welcome_message_after_log_in, currentUser));
         }
 
         // get weather and location information
@@ -60,7 +71,9 @@ public class MainFragment extends Fragment {
                 userCurrentWeather = result.get(1);
                 userCurrentLocation = result.get(2);
 
-                tv_weatherinfo.setText(userCurrentTemp + userCurrentWeather + userCurrentLocation);
+                tv_weatherinfo.setText("Tempreature: " + userCurrentTemp + " Kelvin\r\n" +
+                        "Current Weather: " + userCurrentWeather + "\r\n" +
+                        "Your Location: " + userCurrentLocation);
             }
         }.execute();
 
