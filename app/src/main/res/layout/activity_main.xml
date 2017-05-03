@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:layout_width="480dp"
-    android:layout_height="800dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+    <!--android:layout_width="480dp"-->
+    <!--android:layout_height="800dp"-->
 
     <include
         layout="@layout/app_bar_main"

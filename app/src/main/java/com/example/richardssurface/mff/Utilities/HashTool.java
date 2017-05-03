@@ -1,4 +1,4 @@
-package com.example.richardssurface.mff;
+package com.example.richardssurface.mff.Utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

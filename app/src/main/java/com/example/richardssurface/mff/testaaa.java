@@ -1,5 +1,7 @@
 package com.example.richardssurface.mff;
 
+import com.example.richardssurface.mff.Utilities.WeatherHttpClient;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

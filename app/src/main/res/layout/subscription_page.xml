@@ -260,7 +260,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:id="@+id/favourite_movie_spinner"
+            android:id="@+id/et_favourite_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_favourite_movie" />
@@ -269,7 +269,7 @@
             android:id="@+id/tv_favourite_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/favourite_movie_spinner"
+            android:layout_below="@+id/et_favourite_movie"
             android:text="@string/tag_favourite_unit"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -288,7 +288,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:id="@+id/current_job_spinner"
+            android:id="@+id/et_current_job"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_current_job" />
@@ -297,7 +297,7 @@
             android:id="@+id/b_subscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/current_job_spinner"
+            android:layout_below="@+id/et_current_job"
             android:text="@string/btn_subscribe" />
     </RelativeLayout>
 </ScrollView>

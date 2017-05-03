@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
                 nextFragment = new LoginPage();
                 break;
             case R.id.nav_search_friend:
-                MapsActivity ma = new MapsActivity();
+                nextFragment = new searchFragment();
                 break;
         }
         FragmentManager fragmentManager = getFragmentManager();

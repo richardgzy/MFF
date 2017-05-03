@@ -19,7 +19,7 @@
     <string name="btn_register">I am new here</string>
     <string name="btn_skiplogin">Skip Log in</string>
     <string name="tag_feedback">Please enter your info</string>
-    <string name="welcome_message_after_log_in">Welcome!, %1$s</string>
+    <string name="welcome_message_after_log_in">Welcome, %1$s !</string>
     <string name="tag_feedback_for_new_user">Please login in or subscribe to join us!</string>
 
     <!--subscription page-->
@@ -33,7 +33,31 @@
     <string name="tag_male">Male</string>
     <string name="tag_female">Female</string>
     <string name="tag_study_mode">Study Mode</string>
-       
+
+    <string name="tag_course">Course</string>
+    <string name="tag_address">Address</string>
+    <string name="tag_subrub">Subrub</string>
+    <string name="tag_nationality">Nationality</string>
+    <string name="tag_native_language">Native Language</string>
+    <string name="tag_favourite_sport">Favourite Sport</string>
+    <string name="tag_favourite_movie">Favourite Movie</string>
+    <string name="tag_favourite_unit">Favourite Unit</string>
+    <string name="tag_current_job">Current Job</string>
+
+    <!--navi bar header-->
+    <string name="tag_nav_header1">Monash Friend Finder</string>
+    <string name="tag_nav_header2">Made by Richard</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!--search page-->
+    <!--<string name="tag_search_title">Please select criteria using the spinner below</string>-->
+    <string name="btn_search_friend">Search My Matching Friend!</string>
+    <string name="for_all">Click me to choose criteria!</string>
+    <string name="btn_map_view">Map View</string>
+
+    <!--spinner values-->
     <string-array name="study_mode_spinner_array">
                
         <item>Full-time</item>
@@ -78,7 +102,19 @@
                
         <item>Basketball</item>
                
+        <item>Football</item>
+               
         <item>Tennis</item>
+               
+        <item>Badminton</item>
+               
+        <item>Swimming</item>
+               
+        <item>Running</item>
+               
+        <item>Table Tennis</item>
+               
+        <item>Yoga</item>
            
     </string-array>
 
@@ -89,20 +125,4 @@
         <item>FIT5047</item>
            
     </string-array>
-    <string name="tag_course">Course</string>
-    <string name="tag_address">Address</string>
-    <string name="tag_subrub">Subrub</string>
-    <string name="tag_nationality">Nationality</string>
-    <string name="tag_native_language">Native Language</string>
-    <string name="tag_favourite_sport">Favourite Sport</string>
-    <string name="tag_favourite_movie">Favourite Movie</string>
-    <string name="tag_favourite_unit">Favourite Unit</string>
-    <string name="tag_current_job">Current Job</string>
-
-    <!--navi bar header-->
-    <string name="tag_nav_header1">Monash Friend Finder</string>
-    <string name="tag_nav_header2">Made by Richard</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_maps">Map</string>
 </resources>

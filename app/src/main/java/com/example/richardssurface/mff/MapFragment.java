@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.richardssurface.mff.Utilities.Student;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -15,10 +17,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends Fragment {
+import java.util.ArrayList;
+
+public class MapFragment extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
+    private Student currentUser;
+    private ArrayList<Student> userFriends;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,13 +57,20 @@ public class MapsActivity extends Fragment {
 
 
                 //TODO retrieve friends data from database
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
 
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                // For dropping a marker at a point on the Map
+                if(LoginPage.getCurrentUser() != null){
+                    currentUser = LoginPage.getCurrentUser();
+                    LatLng chadStonePosition = new LatLng(-37.8830, 145.0930);
+                    googleMap.addMarker(new MarkerOptions().position(chadStonePosition).title(currentUser.getFName()).snippet("I am here!"));
+
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(chadStonePosition).zoom(12).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }else{
+                    Toast.makeText(getActivity(), "Please Log in to get current position",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 

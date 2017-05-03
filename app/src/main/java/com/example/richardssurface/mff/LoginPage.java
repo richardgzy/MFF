@@ -18,23 +18,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.richardssurface.mff.Utilities.HashTool;
+import com.example.richardssurface.mff.Utilities.JSONParsingTool;
+import com.example.richardssurface.mff.Utilities.Student;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class LoginPage extends Fragment {
     private View vLogin;
     private EditText etUserName, etPassword;
-    private Button bLogin;
-    private Button bSubscribe;
-    private Button bSkipLogin;
+    private Button bLogin, bSubscribe, bSkipLogin;
     private TextView tvFeedback;
-    private static String currentUser = "";
+    private static Student currentUser = null;
     private static boolean currentLoginState;
 
-    private static final String BASE_URI = "http://192.168.1.5:8080/MFF/webresources";
+    //TODO PLEASE CHANGE THE IP ADDRESS HERE WHEN CHANGING NETWORK ENVIRONEMNT
+    static final String myIpAddress = "118.139.50.151";
+    private static final String BASE_URI = "http://" + myIpAddress + ":8080/MFF/webresources";
 
     @Nullable
     @Override
@@ -46,6 +49,11 @@ public class LoginPage extends Fragment {
         bLogin = (Button) vLogin.findViewById(R.id.b_login);
         bSubscribe = (Button) vLogin.findViewById(R.id.b_subscribe);
         bSkipLogin = (Button) vLogin.findViewById(R.id.b_skiplogin);
+        if(currentUser != null){
+            bSkipLogin.setVisibility(View.VISIBLE);
+        }else{
+            bSkipLogin.setVisibility(View.INVISIBLE);
+        }
         tvFeedback = (TextView) vLogin.findViewById(R.id.tv_feedback);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +62,9 @@ public class LoginPage extends Fragment {
              */
             @Override
             public void onClick(View v) {
+
+                Toast.makeText(getActivity(), "Processing...Please wait",
+                        Toast.LENGTH_LONG).show();
 
                 // Gather user input
                 final String userName = etUserName.getText().toString();
@@ -77,7 +88,7 @@ public class LoginPage extends Fragment {
 
                         //using the rest service findByAnyTwoAttribute to verify the username and hashed password
                         String methodPath = "/mffrest.student/findByAnyTwoAttribute";
-                        String fullUrl = BASE_URI + methodPath + "/monashEmail/" + userName + "/password/" + hashedPassword;
+                        String fullUrl = BASE_URI + methodPath + "/monashEmail/password/" + userName + "/" + hashedPassword;
                         HttpURLConnection conn = null;
                         String textResult = "";
 
@@ -95,7 +106,7 @@ public class LoginPage extends Fragment {
                             conn.setRequestProperty("Accept", "application/json");
                             //Read the response
                             Scanner inStream = new Scanner(conn.getInputStream());
-                            //read the input steream and store it as string
+                            //read the input stream and store it as string
                             while (inStream.hasNextLine()) {
                                 textResult += inStream.nextLine();
                             }
@@ -104,16 +115,15 @@ public class LoginPage extends Fragment {
                         } finally {
                             conn.disconnect();
                         }
-
                         return textResult;
                     }
 
                     @Override
                     protected void onPostExecute(String textResult) {
-                        ArrayList<HashMap> result = JSONParsingTool.parseStudentinfo(textResult);
+                        ArrayList<Student> result = JSONParsingTool.parseInfoForLogin(textResult);
                         if (result.size() == 1) {
                             // login successful
-                            currentUser = result.get(0).get("FName").toString();
+                            currentUser = result.get(0);
                             currentLoginState = true;
                         } else {
                             //login failed
@@ -122,11 +132,21 @@ public class LoginPage extends Fragment {
                         }
 
                         if (currentLoginState && currentUser != null) {
-                            //TODO Jump to main page?
+                            //show successful info
                             Toast.makeText(getActivity(), "Log in successfully",
                                     Toast.LENGTH_LONG).show();
+                            //jump to fragment main
+                            Fragment fragment = new MainFragment();
+                            FragmentManager fragmentManager = getActivity().getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_frame, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
                         } else {
                             etPassword.setError("Sorry, the username/password is incorrect, please try again");
+                            Toast.makeText(getActivity(), "Sorry, the username/password is incorrect, please try again",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 }.execute();
@@ -161,7 +181,7 @@ public class LoginPage extends Fragment {
         currentLoginState = false;
     }
 
-    public static String getCurrentUser() {
+    public static Student getCurrentUser() {
         return currentUser;
     }
 

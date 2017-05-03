@@ -1,4 +1,4 @@
-package com.example.richardssurface.mff;
+package com.example.richardssurface.mff.Utilities;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.DateFormat;
+import com.example.richardssurface.mff.Utilities.JSONParsingTool;
+import com.example.richardssurface.mff.Utilities.Student;
+import com.example.richardssurface.mff.Utilities.WeatherHttpClient;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,7 +28,7 @@ public class MainFragment extends Fragment {
     TextView tv_weatherinfo;
     TextView tv_current_time;
     private boolean loginState;
-    private String currentUser;
+    private Student currentUser;
     private final String latitude = "-37.8830";//hardcode value
     private final String longitude = "145.0930";//hardcode value
     private String userCurrentTemp;
@@ -41,8 +45,10 @@ public class MainFragment extends Fragment {
         tv_current_time = (TextView) vMain.findViewById(R.id.tv_current_time);
 
         //current date and time
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        tv_current_time.setText(currentDateTimeString);
+        String currentDateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String currentTimeString = new SimpleDateFormat("HH:MM:ss").format(new Date());
+
+        tv_current_time.setText(currentDateString + "," + currentTimeString);
 
         //validate user first
         loginState = LoginPage.isCurrentLoginState();
@@ -51,8 +57,8 @@ public class MainFragment extends Fragment {
             tv_login_info.setText(getResources().getString(R.string.tag_feedback_for_new_user));
         }else{
             currentUser = LoginPage.getCurrentUser();
-            String welcome_message_after_log_in = getResources().getString(R.string.welcome_message_after_log_in);
-            tv_login_info.setText(String.format(welcome_message_after_log_in, currentUser));
+            String welcome_message_after_log_in =getResources().getString(R.string.welcome_message_after_log_in);
+            tv_login_info.setText(String.format(welcome_message_after_log_in, currentUser.getFName()));
         }
 
         // get weather and location information
