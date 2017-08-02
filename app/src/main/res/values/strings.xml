@@ -52,77 +52,81 @@
     <string name="title_activity_maps">Map</string>
 
     <!--search page-->
-    <!--<string name="tag_search_title">Please select criteria using the spinner below</string>-->
-    <string name="btn_search_friend">Search My Matching Friend!</string>
+    <string name="tag_search_title">Please select criteria using the spinner below:</string>
+    <string name="tag_result">Searching Result:</string>
     <string name="for_all">Click me to choose criteria!</string>
     <string name="btn_map_view">Map View</string>
+    <string name="tag_image_title">The Movie he/she like:</string>
+    <string name="tag_snippet_title">Movie snippet:</string>
+
+    <!--all friends page-->
+    <string name="tag_all_friend_title">My Friend List</string>
+    <string name="tag_sid">Student ID</string>
+    <string name="tag_fname">First Name</string>
+    <string name="tag_lname">Last Name</string>
+    <string name="tag_range_choose_title">Please choose Friends distance from you:</string>
 
     <!--spinner values-->
     <string-array name="study_mode_spinner_array">
-               
         <item>Full-time</item>
-               
         <item>Part-time</item>
-           
     </string-array>
 
     <string-array name="course_spinner_array">
-               
         <item>MIT</item>
-               
         <item>MBIS</item>
-           
+        <item>MDS</item>
+        <item>MNS</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="subrub_array">
-               
         <item>Caulfield</item>
-               
         <item>Clayton</item>
-           
+        <item>Chadstone</item>
+        <item>City</item>
+        <item>South Yarra</item>
     </string-array>
 
     <string-array name="nationality_array">
-               
         <item>Australian</item>
-               
         <item>Chinese</item>
-           
+        <item>vietnamese</item>
+        <item>British</item>
+        <item>Japanese</item>
+        <item>Indian</item>
     </string-array>
 
     <string-array name="native_language_array">
-               
         <item>English</item>
-               
         <item>Chinese</item>
-           
     </string-array>
 
     <string-array name="favourite_sport_array">
-               
         <item>Basketball</item>
-               
         <item>Football</item>
-               
         <item>Tennis</item>
-               
         <item>Badminton</item>
-               
         <item>Swimming</item>
-               
         <item>Running</item>
-               
         <item>Table Tennis</item>
-               
         <item>Yoga</item>
-           
     </string-array>
 
     <string-array name="favourite_unit_array">
-               
         <item>FIT5046</item>
-               
         <item>FIT5047</item>
-           
+        <item>FIT5211</item>
+        <item>FIT5042</item>
+        <item>FIT5032</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="range_radius_spinner_array">
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+        <item>4.0</item>
+        <item>5.0</item>
     </string-array>
 </resources>

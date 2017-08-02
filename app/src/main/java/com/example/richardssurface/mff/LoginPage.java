@@ -15,29 +15,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.richardssurface.mff.Utilities.HashTool;
-import com.example.richardssurface.mff.Utilities.JSONParsingTool;
+import com.example.richardssurface.mff.Utilities.RestDataReceiver;
+import com.example.richardssurface.mff.Utilities.SharedPreferencesForLogin;
 import com.example.richardssurface.mff.Utilities.Student;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 public class LoginPage extends Fragment {
     private View vLogin;
     private EditText etUserName, etPassword;
     private Button bLogin, bSubscribe, bSkipLogin;
-    private TextView tvFeedback;
     private static Student currentUser = null;
     private static boolean currentLoginState;
 
-    //TODO PLEASE CHANGE THE IP ADDRESS HERE WHEN CHANGING NETWORK ENVIRONEMNT
-    static final String myIpAddress = "118.139.50.151";
-    private static final String BASE_URI = "http://" + myIpAddress + ":8080/MFF/webresources";
+//    //TODO PLEASE CHANGE THE IP ADDRESS HERE WHEN CHANGING NETWORK ENVIRONEMNT
+//    static final String myIpAddress = "192.168.1.5";
+//    private static final String BASE_URI = "http://" + myIpAddress + ":8080/MFF/webresources";
 
     @Nullable
     @Override
@@ -49,12 +45,6 @@ public class LoginPage extends Fragment {
         bLogin = (Button) vLogin.findViewById(R.id.b_login);
         bSubscribe = (Button) vLogin.findViewById(R.id.b_subscribe);
         bSkipLogin = (Button) vLogin.findViewById(R.id.b_skiplogin);
-        if(currentUser != null){
-            bSkipLogin.setVisibility(View.VISIBLE);
-        }else{
-            bSkipLogin.setVisibility(View.INVISIBLE);
-        }
-        tvFeedback = (TextView) vLogin.findViewById(R.id.tv_feedback);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             /**
@@ -78,49 +68,23 @@ public class LoginPage extends Fragment {
                     etPassword.setError("Please Enter your Password");
                     return;
                 }
+
                 //hasing password
                 final String hashedPassword = HashTool.md5Hashing(password);
 
                 // Validate user input using asyncTask
-                new AsyncTask<Void, Void, String>() {
+                new AsyncTask<Void, Void, List<Student>>() {
                     @Override
-                    protected String doInBackground(Void... params) {
-
-                        //using the rest service findByAnyTwoAttribute to verify the username and hashed password
-                        String methodPath = "/mffrest.student/findByAnyTwoAttribute";
-                        String fullUrl = BASE_URI + methodPath + "/monashEmail/password/" + userName + "/" + hashedPassword;
-                        HttpURLConnection conn = null;
-                        String textResult = "";
-
-                        try {
-                            URL url = new URL(fullUrl);
-                            //open the connection
-                            conn = (HttpURLConnection) url.openConnection();
-                            //set the timeout
-                            conn.setReadTimeout(10000);
-                            conn.setConnectTimeout(15000);
-                            //set the connection method to GET
-                            conn.setRequestMethod("GET");
-                            //add http headers to set your response type to json
-                            conn.setRequestProperty("Content-Type", "application/json");
-                            conn.setRequestProperty("Accept", "application/json");
-                            //Read the response
-                            Scanner inStream = new Scanner(conn.getInputStream());
-                            //read the input stream and store it as string
-                            while (inStream.hasNextLine()) {
-                                textResult += inStream.nextLine();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            conn.disconnect();
-                        }
-                        return textResult;
+                    protected List<Student> doInBackground(Void... params) {
+                        if(android.os.Debug.isDebuggerConnected())
+                            android.os.Debug.waitForDebugger();
+                        return RestDataReceiver.RestLogin(userName, hashedPassword);
                     }
 
                     @Override
-                    protected void onPostExecute(String textResult) {
-                        ArrayList<Student> result = JSONParsingTool.parseInfoForLogin(textResult);
+                    protected void onPostExecute(List<Student> result) {
+                        if(android.os.Debug.isDebuggerConnected())
+                            android.os.Debug.waitForDebugger();
                         if (result.size() == 1) {
                             // login successful
                             currentUser = result.get(0);
@@ -135,6 +99,10 @@ public class LoginPage extends Fragment {
                             //show successful info
                             Toast.makeText(getActivity(), "Log in successfully",
                                     Toast.LENGTH_LONG).show();
+
+                            //Shared Preferences for skip log in after
+                            SharedPreferencesForLogin.saveSPForLogin(getActivity(),currentUser);
+
                             //jump to fragment main
                             Fragment fragment = new MainFragment();
                             FragmentManager fragmentManager = getActivity().getFragmentManager();
@@ -153,10 +121,9 @@ public class LoginPage extends Fragment {
             }
         });
 
-
         bSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Fragment fragment = new SubscriptionFragment();
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -166,10 +133,27 @@ public class LoginPage extends Fragment {
             }
         });
 
+
+
         bSkipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                getActivity().getFragmentManager().popBackStack();
+            public void onClick(View v) {
+                Student temp = SharedPreferencesForLogin.loadSPForSkipLogin(getActivity());
+                if(temp != null){
+                    currentUser = temp;
+                    currentLoginState = true;
+                    Toast.makeText(getActivity(), "Skip Log in successfully",
+                            Toast.LENGTH_LONG).show();
+                    Fragment fragment = new MainFragment();
+                    FragmentManager fragmentManager = getActivity().getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }else{
+                    Toast.makeText(getActivity(), "Sorry, we don't have your information, please log in",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 

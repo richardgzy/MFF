@@ -19,9 +19,9 @@ public class DBStructure {
         public static final String COLUMN_LANGUAGE = "LANGUAGE";
     }
 
-    private String[] projection = {DBStructure.tableEntry.COLUMN_LANGUAGE};
+    private static String[] projection = {DBStructure.tableEntry.COLUMN_LANGUAGE};
 
-    public class DBManager {
+    public static class DBManager {
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "LOCAL_DATA.db";
         private final Context context;
@@ -86,5 +86,6 @@ public class DBStructure {
             String selection = DBStructure.tableEntry.COLUMN_PK + " LIKE ?";
             return db.delete(DBStructure.tableEntry.TABLE_NAME, selection, selectionArgs);
         }
+
     }
 }

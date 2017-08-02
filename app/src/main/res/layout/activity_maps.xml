@@ -7,6 +7,19 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="550dp" />
+        android:layout_height="520dp" />
+
+    <TextView
+        android:id="@+id/range_choose_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mapView"
+        android:text="@string/tag_range_choose_title"/>
+
+    <Spinner
+        android:id="@+id/range_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/range_choose_title"/>
 
 </RelativeLayout>

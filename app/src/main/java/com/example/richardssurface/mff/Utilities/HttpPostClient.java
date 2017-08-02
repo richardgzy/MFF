@@ -26,7 +26,7 @@ import cz.msebera.android.httpclient.Header;
 public class HttpPostClient {
 
     //TODO PLEASE CHANGE THE IP ADDRESS HERE WHEN CHANGING NETWORK ENVIRONEMNT
-    static final String myIpAddress = "118.139.50.151";
+    static final String myIpAddress = "118.139.52.205";
     static final String BASE_URI = "http://" + myIpAddress + ":8080/MFF/webresources";
     //TODO change parameter here
     String subscribeParameters = "username=" + "&password=" + "yourusername" + "yourpassword";
@@ -71,7 +71,7 @@ public class HttpPostClient {
             //fit student info into params
             params.put("f_name", student.getFName());
             params.put("l_name", student.getLName());
-            params.put("dob", student.getMonashEmail());
+            params.put("dob", student.getDob());
             params.put("gender", student.getGender());
             params.put("study_mode", student.getStudyMode());
             params.put("course", student.getCourse());

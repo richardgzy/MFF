@@ -1,6 +1,8 @@
 package com.example.richardssurface.mff;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.Nullable;
@@ -13,17 +15,18 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.example.richardssurface.mff.Utilities.DBStructure;
 import com.example.richardssurface.mff.Utilities.HttpPostClient;
 import com.example.richardssurface.mff.Utilities.Student;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.example.richardssurface.mff.R.array.course_spinner_array;
 import static com.example.richardssurface.mff.R.array.favourite_sport_array;
 import static com.example.richardssurface.mff.R.array.favourite_unit_array;
 import static com.example.richardssurface.mff.R.array.nationality_array;
-import static com.example.richardssurface.mff.R.array.native_language_array;
 import static com.example.richardssurface.mff.R.array.study_mode_spinner_array;
 import static com.example.richardssurface.mff.R.array.subrub_array;
 
@@ -43,6 +46,7 @@ public class SubscriptionFragment extends Fragment {
     Spinner study_mode_spinner, course_spinner, subrub_spinner, nationality_spinner, native_language_spinner, favourite_sport_spinner, favourite_unit_spinner;
     RadioGroup gender_radioGroup;
     Button b_subscribe;
+    protected DBStructure.DBManager dbManager;
 
     @Nullable
     @Override
@@ -68,24 +72,36 @@ public class SubscriptionFragment extends Fragment {
         favourite_sport_spinner = (Spinner) vMain.findViewById(R.id.favourite_sport_spinner);
         favourite_unit_spinner = (Spinner) vMain.findViewById(R.id.favourite_unit_spinner);
 
+        //Button
+        b_subscribe = (Button) vMain.findViewById(R.id.b_subscribe);
 
-        //TODO use CursorAdapter to set data from SQLLite database
+        //populate data for spinner
+        populateDatainSpinner(study_mode_spinner, study_mode_spinner_array, getActivity());
+        populateDatainSpinner(course_spinner, course_spinner_array, getActivity());
+        populateDatainSpinner(subrub_spinner, subrub_array, getActivity());
+        populateDatainSpinner(nationality_spinner, nationality_array, getActivity());
+//        populateDatainSpinner(native_language_spinner, native_language_array);
 
+        // OPEN dbManager
+        try {
+//            DBStructure dbs = new DBStructure();
+            dbManager = new DBStructure.DBManager(getActivity());
+            dbManager.open();
+            //use SQLLite Database to populate native_language spinner
+            populateNativelanguageData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        populateDatainSpinner(study_mode_spinner,study_mode_spinner_array);
-        populateDatainSpinner(course_spinner,course_spinner_array);
-        populateDatainSpinner(subrub_spinner,subrub_array);
-        populateDatainSpinner(nationality_spinner,nationality_array);
-        populateDatainSpinner(native_language_spinner,native_language_array);
-        populateDatainSpinner(favourite_sport_spinner,favourite_sport_array);
-        populateDatainSpinner(favourite_unit_spinner,favourite_unit_array);
+        populateDatainSpinner(favourite_sport_spinner, favourite_sport_array, getActivity());
+        populateDatainSpinner(favourite_unit_spinner, favourite_unit_array, getActivity());
 
         //TODO after user entering the data, send the student information to server
 
         // do the subscription
         b_subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //TODO user input validation
 
                 Student newStudent = new Student();
@@ -102,9 +118,9 @@ public class SubscriptionFragment extends Fragment {
                 int radioButtonID = gender_radioGroup.getCheckedRadioButtonId();
                 View radioButton = gender_radioGroup.findViewById(radioButtonID);
                 int idx = gender_radioGroup.indexOfChild(radioButton);
-                if(idx == 0){
+                if (idx == 0) {
                     newStudent.setGender("MALE");
-                }else{
+                } else {
                     newStudent.setGender("FEMALE");
                 }
 
@@ -128,12 +144,39 @@ public class SubscriptionFragment extends Fragment {
         return vMain;
     }
 
-    public void populateDatainSpinner(Spinner spinner, @ArrayRes int textArrayResId){
+    public static void populateDatainSpinner(Spinner spinner, @ArrayRes int textArrayResId, Context context) {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), textArrayResId, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, textArrayResId, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
     }
+
+    private void populateNativelanguageData() {
+        dbManager.insertLanguage("1", "Chinese");
+        dbManager.insertLanguage("2", "English");
+        dbManager.insertLanguage("3", "Japanese");
+        dbManager.insertLanguage("4", "German");
+        dbManager.insertLanguage("5", "Vietnamese");
+
+        ArrayList<String> data = readData();
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        native_language_spinner.setAdapter(adapter);
+    }
+
+    public ArrayList<String> readData() {
+        Cursor c = dbManager.getAllLanguage();
+        ArrayList<String> result = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                result.add(c.getString(0));
+            } while (c.moveToNext());
+        }
+        c.close();
+        return result;
+    }
+
+
 }

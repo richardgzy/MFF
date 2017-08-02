@@ -47,7 +47,7 @@ public class MultiSpinner extends Spinner implements
         StringBuffer spinnerBuffer = new StringBuffer();
         boolean someUnselected = false;
         for (int i = 0; i < items.size(); i++) {
-            if (selected[i] == true) {
+            if (selected[i]) {
                 spinnerBuffer.append(items.get(i));
                 spinnerBuffer.append(", ");
             } else {
@@ -60,13 +60,13 @@ public class MultiSpinner extends Spinner implements
             if (spinnerText.length() > 2)
                 spinnerText = spinnerText.substring(0, spinnerText.length() - 2);
         } else {
-            spinnerText = defaultText;
+            spinnerText = "Please choose criteria";
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item,
                 new String[]{spinnerText});
         setAdapter(adapter);
-        listener.onItemsSelected(selected);
+        listener.onItemsSelected(selected, getContext());
     }
 
     @Override
@@ -86,11 +86,9 @@ public class MultiSpinner extends Spinner implements
         return true;
     }
 
-    public void setItems(List<String> items, String allText,
-                         MultiSpinnerListener listener) {
+    public void setItems(List<String> items, String allText) {
         this.items = items;
         this.defaultText = allText;
-        this.listener = listener;
 
         // all selected by default
         selected = new boolean[items.size()];
@@ -104,8 +102,9 @@ public class MultiSpinner extends Spinner implements
     }
 
     public interface MultiSpinnerListener {
-        public void onItemsSelected(boolean[] selected);
+        public void onItemsSelected(boolean[] selected, Context context);
     }
+
 
     public List<String> getItems() {
         return items;
@@ -121,5 +120,9 @@ public class MultiSpinner extends Spinner implements
 
     public MultiSpinnerListener getListener() {
         return listener;
+    }
+
+    public void setListener(MultiSpinnerListener listener) {
+        this.listener = listener;
     }
 }

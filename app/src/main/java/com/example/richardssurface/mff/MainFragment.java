@@ -1,6 +1,8 @@
 package com.example.richardssurface.mff;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,8 +31,8 @@ public class MainFragment extends Fragment {
     TextView tv_current_time;
     private boolean loginState;
     private Student currentUser;
-    private final String latitude = "-37.8830";//hardcode value
-    private final String longitude = "145.0930";//hardcode value
+    static private final String latitude = "-37.8830";//hardcode value
+    static private final String longitude = "145.0930";//hardcode value
     private String userCurrentTemp;
     private String userCurrentWeather;
     private String userCurrentLocation;
@@ -55,6 +57,12 @@ public class MainFragment extends Fragment {
         if(!loginState){
             currentUser = null;
             tv_login_info.setText(getResources().getString(R.string.tag_feedback_for_new_user));
+            Fragment fragment = new LoginPage();
+            FragmentManager fragmentManager = getActivity().getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }else{
             currentUser = LoginPage.getCurrentUser();
             String welcome_message_after_log_in =getResources().getString(R.string.welcome_message_after_log_in);
@@ -84,5 +92,13 @@ public class MainFragment extends Fragment {
         }.execute();
 
         return vMain;
+    }
+
+    static public String getLatitude() {
+        return latitude;
+    }
+
+    static public String getLongitude() {
+        return longitude;
     }
 }

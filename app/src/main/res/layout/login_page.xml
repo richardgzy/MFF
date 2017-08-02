@@ -5,11 +5,20 @@
     android:layout_marginTop="?attr/actionBarSize"
     android:padding="@dimen/activity_horizontal_margin">
 
+    <ImageView
+        android:id="@+id/iv_monash_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_monash"
+        android:layout_centerHorizontal="true"/>
+
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_monash_logo"
         android:text="@string/tag_username"
+        android:paddingTop="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -59,14 +68,4 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/b_subscribe"
         android:text="@string/btn_skiplogin" />
-
-    <TextView
-        android:id="@+id/tv_feedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/b_skiplogin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:text="@string/tag_feedback"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/holo_blue_dark" />
 </RelativeLayout>

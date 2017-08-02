@@ -46,6 +46,28 @@ public class Student implements Serializable {
         this.lName = lName;
     }
 
+    public Student(Integer sid, String fName, String lName, String dob, String gender, String studyMode, String course, String address, String subrub, String nationality, String nativeLanguage, String favouriteSport, String favouriteMovie, String favouriteUnit, String currentJob, String monashEmail, String password, String subscriptionDate, String subscriptionTime) {
+        this.sid = sid;
+        this.fName = fName;
+        this.lName = lName;
+        this.dob = dob;
+        this.gender = gender;
+        this.studyMode = studyMode;
+        this.course = course;
+        this.address = address;
+        this.subrub = subrub;
+        this.nationality = nationality;
+        this.nativeLanguage = nativeLanguage;
+        this.favouriteSport = favouriteSport;
+        this.favouriteMovie = favouriteMovie;
+        this.favouriteUnit = favouriteUnit;
+        this.currentJob = currentJob;
+        this.monashEmail = monashEmail;
+        this.password = password;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionTime = subscriptionTime;
+    }
+
     public Integer getSid() {
         return sid;
     }
@@ -227,5 +249,11 @@ public class Student implements Serializable {
     public String toSearchingString(){
         return sid + "," + subrub + "," + nationality + "," + nativeLanguage + "," + favouriteSport + "," + favouriteMovie + "," + favouriteUnit + "," + currentJob;
     }
-    
+
+    public String allToString() {
+        return sid + "," + fName + "," + lName + "," + dob + "," + gender + "," + studyMode
+                + "," + course + "," + address + "," + subrub + "," + nationality + "," + nativeLanguage
+                + "," + favouriteSport + "," + favouriteMovie + "," + favouriteUnit + "," + currentJob
+                + "," + monashEmail + "," + password + "," + subscriptionDate + "," + subscriptionTime;
+    }
 }

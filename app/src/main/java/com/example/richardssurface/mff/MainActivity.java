@@ -78,8 +78,17 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_login:
                 nextFragment = new LoginPage();
                 break;
+            case R.id.nav_update:
+                nextFragment = new SubscriptionFragment();
+                break;
             case R.id.nav_search_friend:
-                nextFragment = new searchFragment();
+                nextFragment = new SearchFriendFragment();
+                break;
+            case R.id.nav_myfriend:
+                nextFragment = new AllFriendsFragment();
+                break;
+            case R.id.nav_report:
+                nextFragment = new ReportFragment();
                 break;
         }
         FragmentManager fragmentManager = getFragmentManager();

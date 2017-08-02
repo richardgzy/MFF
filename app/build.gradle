@@ -35,6 +35,7 @@ dependencies {
     compile'com.google.android.gms:play-services-maps:10.2.1'
     compile'com.github.loopj:android-async-http:1.4.9'
 //    compile'com.github.richardgzy:MultiSelectSpinner:1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
     testCompile 'junit:junit:4.12'
 }

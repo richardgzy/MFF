@@ -5,11 +5,11 @@
     android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical">
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_search_title"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/tag_search_title" />-->
+    <TextView
+        android:id="@+id/tv_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tag_search_title" />
 
     <com.example.richardssurface.mff.Utilities.MultiSpinner
         android:id="@+id/multi_spinner"
@@ -17,21 +17,22 @@
         android:layout_width="match_parent"/>
 
     <Button
-        android:id="@+id/b_search_friend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_search_friend" />
-
-    <Button
         android:id="@+id/b_map_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_map_view" />
 
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:text="@string/tag_result"/>
+
     <ListView
         android:id="@+id/b_friend_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="400dp" />
 
 
 </LinearLayout>
